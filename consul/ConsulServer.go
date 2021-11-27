@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 )
@@ -33,7 +32,7 @@ func (c *ConsulServer) PUT(url string, options map[string]interface{}) (*Respons
 func (c *ConsulServer) request(method, url string, options map[string]interface{}) (*Response, error) {
 	// 构建uri
 	uri := "http://" + c.host + ":" + strconv.Itoa(c.port) + url
-	fmt.Println("url  ", uri)
+	//fmt.Println("url  ", uri)
 
 	// 根据传输的参数判断
 	var req *http.Request
