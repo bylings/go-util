@@ -42,9 +42,9 @@ func (c *ConsulServer) request(method, url string, options map[string]interface{
 	} else {
 		req, _ = http.NewRequest(method, uri, nil)
 	}
-	res, _ := http.DefaultClient.Do(req)
+	res, err := http.DefaultClient.Do(req)
 	if res == nil {
-		return nil, errors.New("请求失败，请检查地址和端口")
+		return nil, errors.New("请求失败，请检查地址和端口：" + err.Error())
 	}
 	return NewResponse(res), nil
 }
