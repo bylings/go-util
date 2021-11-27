@@ -19,6 +19,6 @@ func (a *Agent) GetServices() (*Response, error) {
 }
 
 // 注册服务
-func (a *Agent) RegisterService() (*Response, error) {
-	return a.consul.PUT("/v1/agent/service/register", a.params)
+func (a *Agent) RegisterService(servers map[string]interface{}) (*Response, error) {
+	return a.consul.PUT("/v1/agent/service/register", servers)
 }
