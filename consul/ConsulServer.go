@@ -24,7 +24,7 @@ func (c *ConsulServer) Get(url string, options map[string]interface{}) (*Respons
 	return c.request("GET", url, options)
 }
 
-func (c *ConsulServer) PUT(url string, options map[string]interface{}) (*Response, error) {
+func (c *ConsulServer) Put(url string, options map[string]interface{}) (*Response, error) {
 	return c.request("PUT", url, options)
 }
 
@@ -38,7 +38,7 @@ func (c *ConsulServer) request(method, url string, options map[string]interface{
 	var req *http.Request
 	if options != nil {
 		s, _ := json.Marshal(options)
-		req, _ = http.NewRequest(method, url, bytes.NewReader(s))
+		req, _ = http.NewRequest(method, uri, bytes.NewReader(s))
 	} else {
 		req, _ = http.NewRequest(method, uri, nil)
 	}
