@@ -14,6 +14,11 @@ func NewAgent(host string, port int) *Agent {
 }
 
 // 查询所有服务
-func (a *Agent) Services() (*Response, error) {
+func (a *Agent) GetServices() (*Response, error) {
 	return a.consul.Get("/v1/agent/services", a.params)
+}
+
+// 注册服务
+func (a *Agent) RegisterService() (*Response, error) {
+	return a.consul.PUT("/v1/agent/service/register", a.params)
 }
