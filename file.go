@@ -27,6 +27,8 @@ func init() {
 	%v 1632618739036173
 	%v 1632618739036176000
 	*/
+	//time.Sleep(1e9)	//表示延迟1秒  1e9 = time.Second
+	//time.Sleep(time.Second)		// 表示延迟1秒
 }
 
 // 读取json文件
