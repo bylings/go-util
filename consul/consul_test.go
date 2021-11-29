@@ -10,14 +10,14 @@ func TestRegisterServer(t *testing.T) {
 
 	fmt.Println("servers : ", servers)
 
-	agent := NewAgent("host", 8550)
+	agent := NewAgent("host地址", 8550)
 	res, err := agent.RegisterService(servers)
 	fmt.Println("res : ", res)
 	fmt.Println("err : ", err)
 }
 
 func TestServices(t *testing.T) {
-	agent := NewAgent("host", 8550)
+	agent := NewAgent("host地址", 8550)
 	res, _ := agent.GetServices()
 	fmt.Println(string(res.Body))
 }
