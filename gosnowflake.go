@@ -10,13 +10,10 @@ import (
 const (
 	twepoch            = int64(1288834974657)
 	workerIdBits       = uint(5)
-	datacenterIdBits   = uint(5)
 	maxWorkerId        = -1 ^ (-1 << workerIdBits)
-	maxDatacenterId    = -1 ^ (-1 << datacenterIdBits)
 	sequenceBits       = uint(12)
 	workerIdShift      = sequenceBits
-	datacenterIdShift  = sequenceBits + workerIdBits
-	timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits
+	timestampLeftShift = sequenceBits + workerIdBits
 	sequenceMask       = -1 ^ (-1 << sequenceBits)
 	maxNextIdsNum      = 100 // 一次可获取的id上限
 )
@@ -26,21 +23,16 @@ type IdWorker struct {
 	lastTimestamp int64
 	workerId      int64
 	twepoch       int64
-	datacenterId  int64
 	mutex         sync.Mutex
 }
 
 // NewIdWorker new a snowflake id generator object.
-func NewIdWorker(workerId, datacenterId int64, twepoch int64) (*IdWorker, error) {
+func NewIdWorker(workerId int64, twepoch int64) (*IdWorker, error) {
 	idWorker := &IdWorker{}
 	if workerId > maxWorkerId || workerId < 0 {
 		return nil, errors.New(fmt.Sprintf("worker Id: %d error", workerId))
 	}
-	if datacenterId > maxDatacenterId || datacenterId < 0 {
-		return nil, errors.New(fmt.Sprintf("datacenter Id: %d error", datacenterId))
-	}
 	idWorker.workerId = workerId
-	idWorker.datacenterId = datacenterId
 	idWorker.lastTimestamp = -1
 	idWorker.sequence = 0
 	idWorker.twepoch = twepoch
@@ -79,7 +71,7 @@ func (id *IdWorker) NextId() (int64, error) {
 		id.sequence = 0
 	}
 	id.lastTimestamp = timestamp
-	return ((timestamp - id.twepoch) << timestampLeftShift) | (id.datacenterId << datacenterIdShift) | (id.workerId << workerIdShift) | id.sequence, nil
+	return ((timestamp - id.twepoch) << timestampLeftShift) | (id.workerId << workerIdShift) | id.sequence, nil
 }
 
 // 生成多个唯一id
@@ -104,7 +96,7 @@ func (id *IdWorker) NextIds(num int) ([]int64, error) {
 			id.sequence = 0
 		}
 		id.lastTimestamp = timestamp
-		ids[i] = ((timestamp - id.twepoch) << timestampLeftShift) | (id.datacenterId << datacenterIdShift) | (id.workerId << workerIdShift) | id.sequence
+		ids[i] = ((timestamp - id.twepoch) << timestampLeftShift) | (id.workerId << workerIdShift) | id.sequence
 	}
 	return ids, nil
 }
