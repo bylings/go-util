@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	twepoch            = int64(1640966400000)
+	twepoch            = int64(1640854347000)
 	workerIdBits       = uint(5)
 	maxWorkerId        = -1 ^ (-1 << workerIdBits)
 	sequenceBits       = uint(12)
